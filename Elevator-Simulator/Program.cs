@@ -16,7 +16,9 @@ class Elevator : IElevatorMovement
     public string Direction { get; set; }
     public int CurrentTravelFloor { get; set; }
 
-    public Elevator(int number, int currentFloor)
+    public int Capacity { get; }
+
+    public Elevator(int number, int currentFloor, int capacity)
     {
         Number = number;
         CurrentFloor = currentFloor;
@@ -24,6 +26,7 @@ class Elevator : IElevatorMovement
         DestinationFloor = currentFloor;
         Direction = "Idle";
         CurrentTravelFloor = currentFloor;
+        Capacity = capacity;
     }
 
     public async Task MoveToAsync(int destinationFloor)
@@ -33,6 +36,18 @@ class Elevator : IElevatorMovement
         while (CurrentTravelFloor != destinationFloor)
         {
             Console.WriteLine($"Elevator {Number} moving from floor {CurrentTravelFloor} to floor {CurrentTravelFloor + (Direction == "Up" ? 1 : -1)} ({Direction})");
+
+            // Prompt user to enter how many passengers to offload on each floor movement
+            Console.Write($"Enter the number of passengers to offload at floor {CurrentTravelFloor}: ");
+            int offloadCount;
+            while (!int.TryParse(Console.ReadLine(), out offloadCount) || offloadCount < 0 || offloadCount > PassengerCount)
+            {
+                Console.Write($"Invalid input. Please enter a valid number (between 0 and {PassengerCount}): ");
+            }
+
+            PassengerCount -= offloadCount;
+            Console.WriteLine($"{offloadCount} passengers offloaded. {PassengerCount} passengers remaining.");
+
             await Task.Delay(1000); // Simulate delay for real-time movement
             CurrentTravelFloor += Direction == "Up" ? 1 : -1;
         }
@@ -102,7 +117,7 @@ class Building
         List<Elevator> elevators = new List<Elevator>();
         for (int i = 1; i <= elevatorCount; i++)
         {
-            elevators.Add(new Elevator(i, 1)); // All elevators start at the first floor
+            elevators.Add(new Elevator(i, 1, maxCapacity)); // All elevators start at the first floor
         }
 
         ElevatorManager elevatorManager = new ElevatorManager(elevators);
