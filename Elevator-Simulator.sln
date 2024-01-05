@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator-Simulator", "Elevator-Simulator\Elevator-Simulator.csproj", "{3EBC8FD2-3C2B-40C8-AEAC-8B85D7125413}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator-Simulator", "Elevator-Simulator\Elevator-Simulator.csproj", "{3EBC8FD2-3C2B-40C8-AEAC-8B85D7125413}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{697D09D1-A34D-4466-ABAB-C62B73B21941}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{74D898CE-847F-4656-85C7-1D89EE1483E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Features", "Features", "{A20F2E0D-7245-4A77-84DE-D0DAF64D5803}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Implementation", "Implementation", "{26A14DAD-B969-4D3A-BFA8-FC4AE6842D76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{3E09629F-E009-4AD6-8DA5-4992950E46D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +28,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3EBC8FD2-3C2B-40C8-AEAC-8B85D7125413} = {697D09D1-A34D-4466-ABAB-C62B73B21941}
+		{26A14DAD-B969-4D3A-BFA8-FC4AE6842D76} = {A20F2E0D-7245-4A77-84DE-D0DAF64D5803}
+		{3E09629F-E009-4AD6-8DA5-4992950E46D5} = {A20F2E0D-7245-4A77-84DE-D0DAF64D5803}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0FACBB5-3329-4D6D-ADE0-B7681CC223B9}
