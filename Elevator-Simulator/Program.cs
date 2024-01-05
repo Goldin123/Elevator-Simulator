@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-class Elevator
+interface IElevatorMovement
+{
+    Task MoveToAsync(int destinationFloor);
+}
+
+class Elevator : IElevatorMovement
 {
     public int Number { get; }
     public int CurrentFloor { get; set; }
@@ -38,6 +43,49 @@ class Elevator
     }
 }
 
+class ElevatorManager
+{
+    private readonly List<Elevator> elevators;
+
+    public ElevatorManager(List<Elevator> elevators)
+    {
+        this.elevators = elevators;
+    }
+
+    public Elevator FindClosestElevator(int currentFloor)
+    {
+        int minDistance = int.MaxValue;
+        Elevator closestElevator = null;
+
+        foreach (var elevator in elevators)
+        {
+            int distance = Math.Abs(elevator.CurrentFloor - currentFloor);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestElevator = elevator;
+            }
+        }
+
+        return closestElevator;
+    }
+
+    public void AssignRequest(Elevator elevator, int currentFloor, int passengerCount, int destinationFloor)
+    {
+        if (elevator.Direction == "Idle")
+        {
+            elevator.CurrentFloor = currentFloor;
+            elevator.PassengerCount = passengerCount;
+            elevator.DestinationFloor = destinationFloor;
+            elevator.CurrentTravelFloor = currentFloor; // Reset the current travel floor
+        }
+        else
+        {
+            Console.WriteLine($"Elevator {elevator.Number} is currently in motion. Request assigned to it will be processed after it reaches its destination.");
+        }
+    }
+}
+
 class Building
 {
     static async Task Main()
@@ -56,6 +104,8 @@ class Building
         {
             elevators.Add(new Elevator(i, 1)); // All elevators start at the first floor
         }
+
+        ElevatorManager elevatorManager = new ElevatorManager(elevators);
 
         string userInput;
         do
@@ -77,11 +127,9 @@ class Building
             if (!int.TryParse(Console.ReadLine(), out destinationFloor))
                 break;
 
-            Elevator closestElevator = FindClosestElevator(elevators, currentFloor);
+            Elevator closestElevator = elevatorManager.FindClosestElevator(currentFloor);
 
-            AssignRequest(closestElevator, currentFloor, passengerCount, destinationFloor);
-
-            SetDirection(closestElevator, destinationFloor);
+            elevatorManager.AssignRequest(closestElevator, currentFloor, passengerCount, destinationFloor);
 
             await closestElevator.MoveToAsync(destinationFloor);
 
@@ -91,44 +139,6 @@ class Building
             userInput = Console.ReadLine();
 
         } while (userInput != "exit");
-    }
-
-    static Elevator FindClosestElevator(List<Elevator> elevators, int currentFloor)
-    {
-        int minDistance = int.MaxValue;
-        Elevator closestElevator = null;
-
-        foreach (var elevator in elevators)
-        {
-            int distance = Math.Abs(elevator.CurrentFloor - currentFloor);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closestElevator = elevator;
-            }
-        }
-
-        return closestElevator;
-    }
-
-    static void AssignRequest(Elevator elevator, int currentFloor, int passengerCount, int destinationFloor)
-    {
-        if (elevator.Direction == "Idle")
-        {
-            elevator.CurrentFloor = currentFloor;
-            elevator.PassengerCount = passengerCount;
-            elevator.DestinationFloor = destinationFloor;
-            elevator.CurrentTravelFloor = currentFloor; // Reset the current travel floor
-        }
-        else
-        {
-            Console.WriteLine($"Elevator {elevator.Number} is currently in motion. Request assigned to it will be processed after it reaches its destination.");
-        }
-    }
-
-    static void SetDirection(Elevator elevator, int destinationFloor)
-    {
-        elevator.Direction = elevator.CurrentFloor < destinationFloor ? "Up" : "Down";
     }
 
     static void DisplayElevatorStatus(List<Elevator> elevators)
