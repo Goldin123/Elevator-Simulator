@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B25AC8D9-5B54-489B-9E31-90566BEB7A46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{83FE2820-EAA9-4FAA-B29B-282AC77E25D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{83FE2820-EAA9-4FAA-B29B-282AC77E25D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElevatorTests", "ElevatorTests\ElevatorTests.csproj", "{21069B23-DC9D-42AE-9064-C169CE16CFDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElevatorTests", "ElevatorTests\ElevatorTests.csproj", "{21069B23-DC9D-42AE-9064-C169CE16CFDD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elevator", "Elevator", "{7A832F4A-1AAF-4A3E-9E7E-050BD2B54AF4}"
 EndProject

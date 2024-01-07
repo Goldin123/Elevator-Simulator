@@ -14,7 +14,7 @@ namespace Model
         /// <summary>
         /// The number of floors in the building.
         /// </summary>
-        public int TotalFloors { get; set; }
+        public int? TotalFloors { get; set; }
         /// <summary>
         /// The total number of elevators in the building.
         /// </summary>
@@ -22,7 +22,7 @@ namespace Model
         /// <summary>
         /// The allowed maximum passenger capacity the elevator has to carry for the building.
         /// </summary>
-        public int MaximumPassengers { get; set; }
+        public int? MaximumPassengers { get; set; }
         /// <summary>
         /// The actual elevators themselves.
         /// </summary>
