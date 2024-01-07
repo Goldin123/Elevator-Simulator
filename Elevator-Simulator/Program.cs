@@ -9,18 +9,17 @@ interface IElevatorMovement
 
 class Elevator : IElevatorMovement
 {
-    public int Number { get; }
-    public int CurrentFloor { get; set; }
-    public int PassengerCount { get; set; }
-    public int DestinationFloor { get; set; }
+    public int? ElevatorID { get; }
+    public int? CurrentFloor { get; set; }
+    public int? PassengerCount { get; set; }
+    public int? DestinationFloor { get; set; }
     public string Direction { get; set; }
-    public int CurrentTravelFloor { get; set; }
-
-    public int Capacity { get; }
+    public int? CurrentTravelFloor { get; set; }
+    public int? Capacity { get; }
 
     public Elevator(int number, int currentFloor, int capacity)
     {
-        Number = number;
+        ElevatorID = number;
         CurrentFloor = currentFloor;
         PassengerCount = 0;
         DestinationFloor = currentFloor;
@@ -35,7 +34,7 @@ class Elevator : IElevatorMovement
 
         while (CurrentTravelFloor != destinationFloor)
         {
-            Console.WriteLine($"Elevator {Number} moving from floor {CurrentTravelFloor} to floor {CurrentTravelFloor + (Direction == "Up" ? 1 : -1)} ({Direction})");
+            Console.WriteLine($"Elevator {ElevatorID} moving from floor {CurrentTravelFloor} to floor {CurrentTravelFloor + (Direction == "Up" ? 1 : -1)} ({Direction})");
 
             // Prompt user to enter how many passengers to offload on each floor movement
             Console.Write($"Enter the number of passengers to offload at floor {CurrentTravelFloor}: ");
@@ -74,7 +73,7 @@ class ElevatorManager
 
         foreach (var elevator in elevators)
         {
-            int distance = Math.Abs(elevator.CurrentFloor - currentFloor);
+            int distance = Math.Abs((int)elevator.CurrentFloor - currentFloor);
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -96,7 +95,7 @@ class ElevatorManager
         }
         else
         {
-            Console.WriteLine($"Elevator {elevator.Number} is currently in motion. Request assigned to it will be processed after it reaches its destination.");
+            Console.WriteLine($"Elevator {elevator.ElevatorID} is currently in motion. Request assigned to it will be processed after it reaches its destination.");
         }
     }
 }
@@ -162,7 +161,7 @@ class Building
 
         foreach (var elevator in elevators)
         {
-            Console.WriteLine($"Elevator {elevator.Number} at floor {elevator.CurrentFloor}, " +
+            Console.WriteLine($"Elevator {elevator.ElevatorID} at floor {elevator.CurrentFloor}, " +
                               $"Passenger count: {elevator.PassengerCount}, " +
                               $"Destination floor: {elevator.DestinationFloor}, " +
                               $"Direction: {elevator.Direction}");
