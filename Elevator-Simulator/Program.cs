@@ -2,23 +2,30 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-class Elevator
+interface IElevatorMovement
 {
-    public int Number { get; }
-    public int CurrentFloor { get; set; }
-    public int PassengerCount { get; set; }
-    public int DestinationFloor { get; set; }
-    public string Direction { get; set; }
-    public int CurrentTravelFloor { get; set; }
+    Task MoveToAsync(int destinationFloor);
+}
 
-    public Elevator(int number, int currentFloor)
+class Elevator : IElevatorMovement
+{
+    public int? ElevatorID { get; }
+    public int? CurrentFloor { get; set; }
+    public int? PassengerCount { get; set; }
+    public int? DestinationFloor { get; set; }
+    public string Direction { get; set; }
+    public int? CurrentTravelFloor { get; set; }
+    public int? Capacity { get; }
+
+    public Elevator(int number, int currentFloor, int capacity)
     {
-        Number = number;
+        ElevatorID = number;
         CurrentFloor = currentFloor;
         PassengerCount = 0;
         DestinationFloor = currentFloor;
         Direction = "Idle";
         CurrentTravelFloor = currentFloor;
+        Capacity = capacity;
     }
 
     public async Task MoveToAsync(int destinationFloor)
@@ -27,7 +34,19 @@ class Elevator
 
         while (CurrentTravelFloor != destinationFloor)
         {
-            Console.WriteLine($"Elevator {Number} moving from floor {CurrentTravelFloor} to floor {CurrentTravelFloor + (Direction == "Up" ? 1 : -1)} ({Direction})");
+            Console.WriteLine($"Elevator {ElevatorID} moving from floor {CurrentTravelFloor} to floor {CurrentTravelFloor + (Direction == "Up" ? 1 : -1)} ({Direction})");
+
+            // Prompt user to enter how many passengers to offload on each floor movement
+            Console.Write($"Enter the number of passengers to offload at floor {CurrentTravelFloor}: ");
+            int offloadCount;
+            while (!int.TryParse(Console.ReadLine(), out offloadCount) || offloadCount < 0 || offloadCount > PassengerCount)
+            {
+                Console.Write($"Invalid input. Please enter a valid number (between 0 and {PassengerCount}): ");
+            }
+
+            PassengerCount -= offloadCount;
+            Console.WriteLine($"{offloadCount} passengers offloaded. {PassengerCount} passengers remaining.");
+
             await Task.Delay(1000); // Simulate delay for real-time movement
             CurrentTravelFloor += Direction == "Up" ? 1 : -1;
         }
@@ -35,6 +54,49 @@ class Elevator
         CurrentFloor = destinationFloor;
         CurrentTravelFloor = destinationFloor;
         Direction = "Idle";
+    }
+}
+
+class ElevatorManager
+{
+    private readonly List<Elevator> elevators;
+
+    public ElevatorManager(List<Elevator> elevators)
+    {
+        this.elevators = elevators;
+    }
+
+    public Elevator FindClosestElevator(int currentFloor)
+    {
+        int minDistance = int.MaxValue;
+        Elevator closestElevator = null;
+
+        foreach (var elevator in elevators)
+        {
+            int distance = Math.Abs((int)elevator.CurrentFloor - currentFloor);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestElevator = elevator;
+            }
+        }
+
+        return closestElevator;
+    }
+
+    public void AssignRequest(Elevator elevator, int currentFloor, int passengerCount, int destinationFloor)
+    {
+        if (elevator.Direction == "Idle")
+        {
+            elevator.CurrentFloor = currentFloor;
+            elevator.PassengerCount = passengerCount;
+            elevator.DestinationFloor = destinationFloor;
+            elevator.CurrentTravelFloor = currentFloor; // Reset the current travel floor
+        }
+        else
+        {
+            Console.WriteLine($"Elevator {elevator.ElevatorID} is currently in motion. Request assigned to it will be processed after it reaches its destination.");
+        }
     }
 }
 
@@ -54,8 +116,10 @@ class Building
         List<Elevator> elevators = new List<Elevator>();
         for (int i = 1; i <= elevatorCount; i++)
         {
-            elevators.Add(new Elevator(i, 1)); // All elevators start at the first floor
+            elevators.Add(new Elevator(i, 1, maxCapacity)); // All elevators start at the first floor
         }
+
+        ElevatorManager elevatorManager = new ElevatorManager(elevators);
 
         string userInput;
         do
@@ -77,11 +141,9 @@ class Building
             if (!int.TryParse(Console.ReadLine(), out destinationFloor))
                 break;
 
-            Elevator closestElevator = FindClosestElevator(elevators, currentFloor);
+            Elevator closestElevator = elevatorManager.FindClosestElevator(currentFloor);
 
-            AssignRequest(closestElevator, currentFloor, passengerCount, destinationFloor);
-
-            SetDirection(closestElevator, destinationFloor);
+            elevatorManager.AssignRequest(closestElevator, currentFloor, passengerCount, destinationFloor);
 
             await closestElevator.MoveToAsync(destinationFloor);
 
@@ -93,51 +155,13 @@ class Building
         } while (userInput != "exit");
     }
 
-    static Elevator FindClosestElevator(List<Elevator> elevators, int currentFloor)
-    {
-        int minDistance = int.MaxValue;
-        Elevator closestElevator = null;
-
-        foreach (var elevator in elevators)
-        {
-            int distance = Math.Abs(elevator.CurrentFloor - currentFloor);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closestElevator = elevator;
-            }
-        }
-
-        return closestElevator;
-    }
-
-    static void AssignRequest(Elevator elevator, int currentFloor, int passengerCount, int destinationFloor)
-    {
-        if (elevator.Direction == "Idle")
-        {
-            elevator.CurrentFloor = currentFloor;
-            elevator.PassengerCount = passengerCount;
-            elevator.DestinationFloor = destinationFloor;
-            elevator.CurrentTravelFloor = currentFloor; // Reset the current travel floor
-        }
-        else
-        {
-            Console.WriteLine($"Elevator {elevator.Number} is currently in motion. Request assigned to it will be processed after it reaches its destination.");
-        }
-    }
-
-    static void SetDirection(Elevator elevator, int destinationFloor)
-    {
-        elevator.Direction = elevator.CurrentFloor < destinationFloor ? "Up" : "Down";
-    }
-
     static void DisplayElevatorStatus(List<Elevator> elevators)
     {
         Console.WriteLine("\nElevator Status:");
 
         foreach (var elevator in elevators)
         {
-            Console.WriteLine($"Elevator {elevator.Number} at floor {elevator.CurrentFloor}, " +
+            Console.WriteLine($"Elevator {elevator.ElevatorID} at floor {elevator.CurrentFloor}, " +
                               $"Passenger count: {elevator.PassengerCount}, " +
                               $"Destination floor: {elevator.DestinationFloor}, " +
                               $"Direction: {elevator.Direction}");
