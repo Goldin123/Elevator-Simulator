@@ -20,30 +20,40 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.FirstClosestEleva
             _elevators = elevators;
         }
 
-        public async Task<Model.Elevator> FindClosestElevatorAvailable(int currentFloor)
+        public async Task<Model.Elevator> FindClosestElevatorAvailableAsync(int currentFloor)
         {
             int minDistance = int.MaxValue;
             Model.Elevator closestElevator = new Model.Elevator(0, 0, 0, 0);
             try
             {
-                foreach (var elevator in _elevators)
+                if (closestElevator != null && currentFloor > 0)
                 {
-                    int.TryParse(elevator?.CurrentFloor.ToString(), out int tempCurrentFloor);
-                    int distance = Math.Abs(tempCurrentFloor - currentFloor);
-                    if (distance < minDistance)
+
+                    foreach (var elevator in _elevators)
                     {
-                        _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailable)} - ElevatorID : {elevator?.ElevatorID} has min distance {distance}."));
-                        minDistance = distance;
-                        closestElevator = elevator ?? new Model.Elevator(0, 0, 0, 0);
+                        int.TryParse(elevator?.CurrentFloor.ToString(), out int tempCurrentFloor);
+                        int distance = Math.Abs(tempCurrentFloor - currentFloor);
+                        if (distance < minDistance)
+                        {
+                            _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - ElevatorID : {elevator?.ElevatorID} has min distance {distance}."));
+                            minDistance = distance;
+                            closestElevator = elevator ?? new Model.Elevator(0, 0, 0, 0);
+                        }
                     }
+                    _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - ElevatorID : {closestElevator?.ElevatorID} is the closet available elevator."));
+                    return closestElevator ?? new Model.Elevator(0, 0, 0, 0); ;
                 }
-                _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailable)} - ElevatorID : {closestElevator?.ElevatorID} is the closet available elevator."));
-                return closestElevator ?? new Model.Elevator(0, 0, 0, 0); ;
+                else
+                {
+                    _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - Current floor should be greater than zero."));
+                    throw new ArgumentOutOfRangeException(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - Current floor should be greater than zero."));
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailable)} - {ex.Message}"));
-                return closestElevator;
+                _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - {ex.Message}"));
+                throw new Exception(ex.Message);
+
             }
         }
 

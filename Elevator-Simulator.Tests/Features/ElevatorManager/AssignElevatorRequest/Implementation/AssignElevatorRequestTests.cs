@@ -31,7 +31,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
                 int topFloor = 10;
                 var elevator = new Model.Elevator(1, currentFloor, maxCapacity, topFloor);
 
-                var testAssignElevator =  _assignElevatorRequest.AssignRequest(elevator, currentFloor, passengerCount, destinationFloor);
+                var testAssignElevator =  _assignElevatorRequest.AssignRequestAsync(elevator, currentFloor, passengerCount, destinationFloor);
 
                 Assert.Equals(true, testAssignElevator);
 

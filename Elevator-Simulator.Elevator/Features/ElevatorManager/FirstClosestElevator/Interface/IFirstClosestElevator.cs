@@ -8,6 +8,6 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.FirstClosestEleva
 {
     public interface IFirstClosestElevator
     {
-        Task<Model.Elevator> FindClosestElevatorAvailable(int currentFloor);
+        Task<Model.Elevator> FindClosestElevatorAvailableAsync(int currentFloor);
     }
 }
