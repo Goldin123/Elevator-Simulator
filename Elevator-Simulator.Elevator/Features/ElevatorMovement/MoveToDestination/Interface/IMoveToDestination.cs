@@ -8,5 +8,6 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
 {
     public interface IMoveToDestination
     {
+        Task<bool> MoveToDestinationAsync(Model.Elevator elevator, int destinationFloor);
     }
 }

@@ -4,12 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model
+namespace Elevator_Simulator.Model
 {
     public enum Direction
     {
         Idle,
         Up,
         Down
+    }
+
+    public enum ElevatorType 
+    {
+        Normal = 1,
+        MediumSpeed = 2,
+        HighSpeed = 3,
     }
 }

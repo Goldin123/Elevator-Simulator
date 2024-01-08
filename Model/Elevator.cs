@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model
+namespace Elevator_Simulator.Model
 {
     /// <summary>
     /// This defines the core structure of an elevator.
@@ -30,7 +30,7 @@ namespace Model
         /// <summary>
         /// Only the following movements are allowed for an elevator.
         /// </summary>
-        public Direction Movement { get; set; }
+        public Direction? Movement { get; set; }
         /// <summary>
         /// This assists with off-loading passengers.
         /// </summary>
@@ -42,7 +42,12 @@ namespace Model
         /// <summary>
         /// This holds the maximum floor level on which the elevator can travel to. 
         /// </summary>
-        public int TopFloor { get; set; }
+        public int? TopFloor { get; set; }
+
+        /// <summary>
+        /// The velocity of the speed which is randomly assigned when the elevator is created. 
+        /// </summary>
+        public ElevatorType Speed { get; set; }
         /// <summary>
         /// Basically for an elevator to function, the following parameters needs to be passed through.
         /// </summary>
@@ -51,6 +56,8 @@ namespace Model
         /// <param name="maxCapacity"></param>
         public Elevator(int elevatorID, int currentFloor, int maxCapacity,int topFloor)
         {
+            Random rnd = new Random();
+            int elevatorType = rnd.Next(1, 4); 
             ElevatorID = elevatorID;
             CurrentFloor = currentFloor;
             PassengerCount = 0;
@@ -59,6 +66,7 @@ namespace Model
             CurrentTravelFloor = currentFloor;
             MaxCapacity = maxCapacity;
             TopFloor = topFloor;
+            Speed = (ElevatorType)elevatorType;
         }
 
 

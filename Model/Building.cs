@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model
+namespace Elevator_Simulator.Model
 {
     /// <summary>
     /// This holds the core object that defines a building
