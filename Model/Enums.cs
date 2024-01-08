@@ -12,4 +12,11 @@ namespace Elevator_Simulator.Model
         Up,
         Down
     }
+
+    public enum ElevatorType 
+    {
+        Normal = 1,
+        MediumSpeed = 2,
+        HighSpeed = 3,
+    }
 }

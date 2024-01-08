@@ -53,6 +53,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
                     elevator.PassengerCount = passengerCount;
                     elevator.DestinationFloor = destinationFloor;
                     elevator.CurrentTravelFloor = currentFloor;
+                    await Task.Delay(1);            
                     return true;
                 }
                 else
