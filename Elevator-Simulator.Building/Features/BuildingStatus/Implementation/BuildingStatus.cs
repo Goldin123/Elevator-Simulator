@@ -18,23 +18,20 @@ namespace Elevator_Simulator.Building.Features.BuildingStatus.Implementation
             _logger = logger;
         }
 
-        public async Task<bool> DisplayBuildingStatusAsync(Model.Building building) 
+        public async Task<bool> DisplayBuildingStatusAsync(Model.Building building)
         {
             try
             {
-                if (building !=null)
+                if (building != null)
                 {
                     string msg = string.Empty;
-                    Console.WriteLine("\nBuilding Status:");
+                    Console.WriteLine($"\nBuilding Status as at: {DateTime.Now}");
                     Console.WriteLine("----------------------------------------------");
-
-                    msg = string.Format("{0} - {1}", DateTime.Now, $"Building total floors : {building.TotalFloors} \n" +
-                                      $"Building numbers of elevators {building.Elevators?.Count()} \n " +
-                                      $"Passenger maximum capacity: {building.MaximumPassengers}, ") ;
-                                         
-                        Console.WriteLine(msg);
-                
-                    Console.WriteLine("----------------------------------------------\n");
+                    msg = $"Building total floors : {building.TotalFloors}\n" +
+                           $"Building numbers of elevators {building.Elevators?.Count()}\n" +
+                           $"Passenger maximum capacity: {building.MaximumPassengers}";
+                    Console.WriteLine(msg);
+                    Console.WriteLine("----------------------------------------------");
                     await Task.Delay(1);
                     return true;
                 }
@@ -52,6 +49,5 @@ namespace Elevator_Simulator.Building.Features.BuildingStatus.Implementation
 
             }
         }
-
     }
 }

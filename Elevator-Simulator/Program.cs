@@ -80,6 +80,8 @@ async Task DoWorkAsync()
             throw new Exception(string.Format("{0} - {1}", DateTime.Now, "Application had problems configuring the building."));
         }
 
+        Console.Clear();
+
         _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, "Building is now all setup. Now let's get passengers onto the elevators so they can be safely delivered to their desired destination."));
 
         await _buildingBuildingStatusService.DisplayBuildingStatusAsync(building);
@@ -89,7 +91,9 @@ async Task DoWorkAsync()
         string? userInput = string.Empty;
         do
         {
-            Console.WriteLine("\nPlease enter details for a new request (type 'exit' to quit):");
+            Console.WriteLine("----------------------------------------------");
+
+            Console.WriteLine("\nPlease follow prompts for a new elevator request (type 'exit' to quit):");
 
             //Request an elevator
 
@@ -109,7 +113,6 @@ async Task DoWorkAsync()
                 //Assign Request to elevator
 
                 building = await _elevatorManagerAssignElevatorRequestService.AssignRequestAsync(closestElevator, elevatorRequest.CurrentFloor ?? 0, elevatorRequest.PassengerCount ?? 0, elevatorRequest.DestinationFloor ?? 0, building);
-
 
                 //Move Elevator to destination
 

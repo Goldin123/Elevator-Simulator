@@ -24,17 +24,17 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorStatus.Implementation
                 if (elevators?.Count > 0)
                 {
                     string msg = string.Empty;
-                    Console.WriteLine("\nElevator Status:");
-                    Console.WriteLine("----------------------------------------------");
+                    Console.WriteLine($"\nElevator Status as at :{DateTime.Now}");
+                    Console.WriteLine("----------------------------------------------");    
                     foreach (var elevator in elevators)
                     {
-                        msg = string.Format("{0} - {1}", DateTime.Now, $"Elevator {elevator.ElevatorID} which has speed {elevator.Speed} at floor {elevator.CurrentFloor}, " +
+                        msg =$"Elevator {elevator.ElevatorID} which has speed {elevator.Speed} at floor {elevator.CurrentFloor}, " +
                                           $"Passenger count: {elevator.PassengerCount}, " +
                                           $"Destination floor: {elevator.DestinationFloor}, " +
-                                          $"Direction: {elevator.Movement}");
+                                          $"Direction: {elevator.Movement}";
                         Console.WriteLine(msg);
                     }
-                    Console.WriteLine("----------------------------------------------\n");
+                    Console.WriteLine("----------------------------------------------");
                     await Task.Delay(1);
                     return true;
                 }
