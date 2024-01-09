@@ -36,20 +36,19 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorStatus.Implementation
                         Console.WriteLine(msg);
                     }
                     await Task.Delay(1);
-
                     return true;
                 }
                 else 
                 {
-                    _logger.LogWarning("No elevators available.");
-                    Console.WriteLine("No elevators available.");
+                    _logger.LogWarning(string.Format("{0} - {1}", DateTime.Now, "No elevators available."));
+                    Console.WriteLine(string.Format("{0} - {1}", DateTime.Now, "No elevators available."));
                     return false;
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(DisplayElevatorStatus)} - {ex.Message}"));
-                throw new Exception(ex.Message);
+                throw new Exception(string.Format("{0} - {1}", DateTime.Now, ex.Message));
 
             }
         }
