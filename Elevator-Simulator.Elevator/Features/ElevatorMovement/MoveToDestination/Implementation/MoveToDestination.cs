@@ -32,11 +32,13 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                 if (destinationFloor <= 0 && destinationFloor > closestElevator.TopFloor)
                 {
                     _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(MoveToDestinationAsync)} - destination floor is out of range."));
-                    throw new IndexOutOfRangeException(nameof(destinationFloor));
+                    throw new IndexOutOfRangeException(string.Format("{0} - {1}", DateTime.Now, nameof(destinationFloor)));
                 }
 
                 if (building == null) 
                 {
+                    _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(MoveToDestinationAsync)} - building is null."));
+                    throw new IndexOutOfRangeException(string.Format("{0} - {1}", DateTime.Now, nameof(building)));
 
                 }
 
@@ -46,18 +48,23 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                     foreach (var elevator in building.Elevators.Where(a => a.ElevatorID == closestElevator.ElevatorID))
                     {
 
-                        elevator.Movement = destinationFloor > elevator.CurrentFloor ? Model.Direction.Up : Model.Direction.Down; //This determines the direction on which the elevator needs to move.
+                        elevator.Movement = destinationFloor > elevator.CurrentTravelFloor ? Model.Direction.Up : Model.Direction.Down; //This determines the direction on which the elevator needs to move.
 
                         string msg = string.Empty;
 
-                        while (elevator.CurrentTravelFloor != destinationFloor)
+                        while (elevator.CurrentTravelFloor != destinationFloor && elevator.PassengerCount > 0)
                         {
-                            msg = string.Format("{0} - {1}", DateTime.Now, $"Elevator {elevator.ElevatorID} moving from floor {elevator.CurrentTravelFloor} to floor {elevator.CurrentTravelFloor + (elevator.Movement == Model.Direction.Up ? 1 : -1)} ({elevator.Movement}), the speed of this is: {elevator.Speed}");
+                            msg = string.Format("{0} - {1}", DateTime.Now, $"Elevator {elevator.ElevatorID} moving from floor {elevator.CurrentTravelFloor} to floor {elevator.DestinationFloor} and it is going ({elevator.Movement}), the speed of the current elevator is: {elevator.Speed}");
                             _logger.LogInformation(msg);
                             Console.WriteLine(msg);
                             // Prompt user to enter how many passengers to offload on each floor movement
+                            if (elevator.Movement == Direction.Down)
+                                elevator.CurrentTravelFloor--;
+                            else
+                                elevator.CurrentTravelFloor++;
 
                             Console.Write($"Enter the number of passengers to offload at floor {elevator.CurrentTravelFloor}: ");
+                            elevator.CurrentFloor = elevator.CurrentTravelFloor;
                             int offloadCount;
                             while (!int.TryParse(Console.ReadLine(), out offloadCount) || offloadCount < 0 || offloadCount > elevator.PassengerCount)
                             {
@@ -65,10 +72,11 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                             }
 
                             elevator.PassengerCount -= offloadCount;
-                            Console.WriteLine($"{offloadCount} passengers offloaded. {elevator.PassengerCount} passengers remaining.");
+                            Console.WriteLine($"{offloadCount} passengers offloaded at floor {elevator.CurrentFloor}. {elevator.PassengerCount} passengers remaining.");
 
                             await Task.Delay(1000 / (int)elevator.Speed); // Simulate delay for real-time movement
-                            elevator.CurrentTravelFloor += elevator.Movement == Model.Direction.Up ? 1 : -1;
+                            elevator.CurrentTravelFloor = elevator.CurrentTravelFloor;
+                            elevator.CurrentFloor = elevator.CurrentTravelFloor;
                         }
 
                         elevator.CurrentFloor = destinationFloor;

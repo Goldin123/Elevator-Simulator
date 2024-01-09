@@ -35,7 +35,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.FirstClosestEleva
                             int distance = Math.Abs(tempCurrentFloor - currentFloor);
                             if (distance < minDistance)
                             {
-                                _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - ElevatorID : {elevator?.ElevatorID} has min distance {distance}."));
+                                _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - ElevatorID : {elevator?.ElevatorID} has a minimum distance {distance} floor(s)."));
                                 minDistance = distance;
                                 await Task.Delay(1);
                                 closestElevator = elevator ?? new Model.Elevator(1, 1, 1, 1);

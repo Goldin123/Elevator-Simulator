@@ -30,7 +30,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorStatus.Implementation
                     {
                         msg =$"Elevator {elevator.ElevatorID} which has speed {elevator.Speed} at floor {elevator.CurrentFloor}, " +
                                           $"Passenger count: {elevator.PassengerCount}, " +
-                                          $"Destination floor: {elevator.DestinationFloor}, " +
+                                          $"Previous destination floor: {elevator.DestinationFloor}, " +
                                           $"Direction: {elevator.Movement}";
                         Console.WriteLine(msg);
                     }
