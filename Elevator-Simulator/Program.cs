@@ -105,7 +105,7 @@ async Task DoWorkAsync()
             if (elevatorRequest == null)
                 throw new Exception(string.Format("{0} - {1}", DateTime.Now, "Application had problems receiving user elevator requests."));
 
-            var closestElevator = await _elevatorManagerFirstClosestElevatorService.FindClosestElevatorAvailableAsync(building.Elevators ?? _tempElevators, elevatorRequest.CurrentFloor ?? 0);
+            var closestElevator = await _elevatorManagerFirstClosestElevatorService.FindClosestElevatorAvailableAsync(building.Elevators ?? _tempElevators, elevatorRequest.CurrentFloor ?? 0, elevatorRequest.PassengerCount ?? 0);
 
             if (closestElevator == null)
                 Console.WriteLine(string.Format("{0} - {1}", DateTime.Now, $"No elevators available for floor {elevatorRequest.CurrentFloor}."));

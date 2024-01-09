@@ -62,7 +62,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                             else
                                 elevator.CurrentTravelFloor++;
 
-                            Console.Write($"Enter the number of passengers to offload at floor {elevator.CurrentTravelFloor}: ");
+                            Console.Write($"There's a total of {elevator.PassengerCount}, enter how passengers to get off at floor {elevator.CurrentTravelFloor}: ");
                             elevator.CurrentFloor = elevator.CurrentTravelFloor;
                             int offloadCount;
                             while (!int.TryParse(Console.ReadLine(), out offloadCount) || offloadCount < 0 || offloadCount > elevator.PassengerCount)
@@ -71,11 +71,12 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                             }
 
                             elevator.PassengerCount -= offloadCount;
+                            
                             Console.WriteLine($"{offloadCount} passengers offloaded at floor {elevator.CurrentFloor}. {elevator.PassengerCount} passengers remaining.");
-
-                            await Task.Delay(1000 / (int)elevator.Speed); // Simulate delay for real-time movement
                             elevator.CurrentTravelFloor = elevator.CurrentTravelFloor;
                             elevator.CurrentFloor = elevator.CurrentTravelFloor;
+
+                            await Task.Delay(1000 / (int)elevator.Speed); // Simulate delay for real-time movement
                         }
 
                         elevator.CurrentFloor = destinationFloor;
