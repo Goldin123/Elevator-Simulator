@@ -19,7 +19,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
             _logger = logger;
         }
 
-        public async Task<bool> MoveToDestinationAsync(Model.Elevator elevator, int destinationFloor)
+        public async Task<bool> MoveToDestinationAsync(Model.Elevator? elevator, int destinationFloor)
         {
             try
             {

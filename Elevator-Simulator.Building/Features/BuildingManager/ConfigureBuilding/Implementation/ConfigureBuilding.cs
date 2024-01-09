@@ -19,7 +19,7 @@ namespace Elevator_Simulator.Building.Features.BuildingManager.ConfigureBuilding
 
         public async Task<Model.Building> ConfigureBuildingAsync()
         {
-            Model.Building building = new Model.Building(0, 0, 0);
+            Model.Building building = new Model.Building(1, 1, 1);
             try
             {
                 Console.WriteLine("Welcome to Goldin's Elevator manager, let's first get started by configuring the building. Follow the prompt below.");

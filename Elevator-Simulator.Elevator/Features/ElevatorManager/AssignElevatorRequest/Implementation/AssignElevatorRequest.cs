@@ -17,7 +17,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
             _logger = logger;
         }
 
-        public async Task<bool> AssignRequestAsync(Model.Elevator elevator, int currentFloor, int passengerCount, int destinationFloor)
+        public async Task<bool> AssignRequestAsync(List<Model.Elevator> elevators,Model.Elevator elevator, int currentFloor, int passengerCount, int destinationFloor)
         {
             try 
             {
@@ -53,6 +53,15 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
                     elevator.PassengerCount = passengerCount;
                     elevator.DestinationFloor = destinationFloor;
                     elevator.CurrentTravelFloor = currentFloor;
+
+                    foreach(var itm in elevators.Where(a=>a.ElevatorID == elevator.ElevatorID)) 
+                    {
+                        itm.CurrentFloor = elevator.CurrentFloor;
+                        itm.PassengerCount = elevator.PassengerCount;
+                        itm.DestinationFloor = elevator.DestinationFloor;
+                        itm.CurrentTravelFloor = elevator.CurrentTravelFloor;
+                    }
+
                     await Task.Delay(1);            
                     return true;
                 }

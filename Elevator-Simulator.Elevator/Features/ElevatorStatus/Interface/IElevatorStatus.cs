@@ -8,6 +8,6 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorStatus.Interface
 {
     public interface IElevatorStatus
     {
-        Task<bool> DisplayElevatorStatus(List<Model.Elevator> elevators);
+        Task<bool> DisplayElevatorStatusAsync(List<Model.Elevator> elevators);
     }
 }

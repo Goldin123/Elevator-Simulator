@@ -17,7 +17,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorStatus.Implementation
         {
             _logger = logger;
         }
-        public async Task<bool> DisplayElevatorStatus(List<Model.Elevator> elevators)
+        public async Task<bool> DisplayElevatorStatusAsync(List<Model.Elevator> elevators)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorStatus.Implementation
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(DisplayElevatorStatus)} - {ex.Message}"));
+                _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(DisplayElevatorStatusAsync)} - {ex.Message}"));
                 throw new Exception(string.Format("{0} - {1}", DateTime.Now, ex.Message));
 
             }
