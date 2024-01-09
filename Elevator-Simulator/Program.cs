@@ -79,19 +79,20 @@ async Task DoWorkAsync()
         {
             throw new Exception(string.Format("{0} - {1}", DateTime.Now, "Application had problems configuring the building."));
         }
-
-        Console.Clear();
+       
 
         _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, "Building is now all setup. Now let's get passengers onto the elevators so they can be safely delivered to their desired destination."));
-
-        await _buildingBuildingStatusService.DisplayBuildingStatusAsync(building);
-
-        await _elevatorStatusService.DisplayElevatorStatusAsync(building.Elevators ?? _tempElevators);
+        await Task.Delay(1000);
 
         string? userInput = string.Empty;
         do
         {
             Console.WriteLine("----------------------------------------------");
+
+            Console.Clear();
+            await _buildingBuildingStatusService.DisplayBuildingStatusAsync(building);
+
+            await _elevatorStatusService.DisplayElevatorStatusAsync(building.Elevators ?? _tempElevators);
 
             Console.WriteLine("\nPlease follow prompts for a new elevator request (type 'exit' to quit):");
 

@@ -55,7 +55,6 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                         while (elevator.CurrentTravelFloor != destinationFloor && elevator.PassengerCount > 0)
                         {
                             msg = string.Format("{0} - {1}", DateTime.Now, $"Elevator {elevator.ElevatorID} moving from floor {elevator.CurrentTravelFloor} to floor {elevator.DestinationFloor} and it is going ({elevator.Movement}), the speed of the current elevator is: {elevator.Speed}");
-                            _logger.LogInformation(msg);
                             Console.WriteLine(msg);
                             // Prompt user to enter how many passengers to offload on each floor movement
                             if (elevator.Movement == Direction.Down)
