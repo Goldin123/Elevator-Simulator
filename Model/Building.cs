@@ -30,6 +30,15 @@ namespace Elevator_Simulator.Model
 
         public Building(int totalFloors, int totalElevators, int maximumPassengers) 
         {
+            if (totalFloors <= 0)
+                throw new ArgumentOutOfRangeException("Totals floor should be greater than zero.");
+
+            if (totalElevators <= 0)
+                throw new ArgumentOutOfRangeException("Totals elevators should be greater than zero.");
+
+            if(maximumPassengers <= 0)
+                throw new ArgumentOutOfRangeException("Maximum passengers should be greater than zero.");
+
             TotalFloors = totalFloors;
             TotalElevators = totalElevators;
             MaximumPassengers = maximumPassengers;

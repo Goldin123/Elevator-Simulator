@@ -34,8 +34,10 @@ namespace Elevator_Simulator.Building.Features.BuildingManager.CaptureUserReques
                 _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"The number of passengers are {passengerCount}."));
 
                 //Capture destination floor
-                int destinationFloor = GetInput("Destination floor: ", totalFloors);                
+                int destinationFloor = GetInput("Destination floor: ", totalFloors, currentFloor);                
                 requestElevator.DestinationFloor = destinationFloor;
+
+
                 _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"The last passenger(s) are destined  for floor {destinationFloor}."));
                 await Task.Delay(1);
                 return requestElevator;
@@ -68,6 +70,15 @@ namespace Elevator_Simulator.Building.Features.BuildingManager.CaptureUserReques
             }
             return userInput;
         }
-
+        int GetInput(string prompt, int maximum,int current)
+        {
+            Console.WriteLine(prompt);
+            int userInput;
+            while (!(int.TryParse(Console.ReadLine(), out userInput) && userInput > 0 && userInput <= maximum && userInput != current ))
+            {
+                Console.WriteLine($"Please enter a positive number which is between 1 and {maximum} and should not be {current}.");
+            }
+            return userInput;
+        }
     }
 }

@@ -19,52 +19,66 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
             _logger = logger;
         }
 
-        public async Task<bool> MoveToDestinationAsync(Model.Elevator elevator, int destinationFloor)
+        public async Task<Model.Building> MoveToDestinationAsync(Model.Elevator? closestElevator, int destinationFloor, Model.Building building)
         {
             try
             {
-                if (elevator == null)
+                if (closestElevator == null)
                 {
                     _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(MoveToDestinationAsync)} - Elevator is null."));
-                    throw new ArgumentNullException(nameof(elevator));
+                    throw new ArgumentNullException(nameof(closestElevator));
                 }
 
-                if (destinationFloor <= 0 && destinationFloor > elevator.TopFloor)
+                if (destinationFloor <= 0 && destinationFloor > closestElevator.TopFloor)
                 {
                     _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(MoveToDestinationAsync)} - destination floor is out of range."));
                     throw new IndexOutOfRangeException(nameof(destinationFloor));
                 }
 
-                elevator.Movement = destinationFloor > elevator.CurrentFloor ? Model.Direction.Up : Model.Direction.Down; //This determines the direction on which the elevator needs to move.
-
-                string msg = string.Empty;
-
-                while (elevator.CurrentTravelFloor != destinationFloor)
+                if (building == null) 
                 {
-                    msg = string.Format("{0} - {1}", DateTime.Now, $"Elevator {elevator.ElevatorID} moving from floor {elevator.CurrentTravelFloor} to floor {elevator.CurrentTravelFloor + (elevator.Movement == Model.Direction.Up ? 1 : -1)} ({elevator.Movement}), the speed of this is: {elevator.Speed}");
-                    _logger.LogInformation(msg);
-                    Console.WriteLine(msg);
-                    // Prompt user to enter how many passengers to offload on each floor movement
-                    
-                    Console.Write($"Enter the number of passengers to offload at floor {elevator.CurrentTravelFloor}: ");
-                    int offloadCount;
-                    while (!int.TryParse(Console.ReadLine(), out offloadCount) || offloadCount < 0 || offloadCount > elevator.PassengerCount)
-                    {
-                        Console.Write($"Invalid input. Please enter a valid number (between 0 and {elevator.PassengerCount}): ");
-                    }
 
-                    elevator.PassengerCount -= offloadCount;
-                    Console.WriteLine($"{offloadCount} passengers offloaded. {elevator.PassengerCount} passengers remaining.");
-
-                    await Task.Delay(1000/(int)elevator.Speed); // Simulate delay for real-time movement
-                    elevator.CurrentTravelFloor += elevator.Movement == Model.Direction.Up ? 1 : -1;
                 }
 
-                elevator.CurrentFloor = destinationFloor;
-                elevator.CurrentTravelFloor = destinationFloor;
-                elevator.Movement = Model.Direction.Idle;
+                if (building?.Elevators?.Count > 0)
+                {
 
-                return true;
+                    foreach (var elevator in building.Elevators.Where(a => a.ElevatorID == closestElevator.ElevatorID))
+                    {
+
+                        elevator.Movement = destinationFloor > elevator.CurrentFloor ? Model.Direction.Up : Model.Direction.Down; //This determines the direction on which the elevator needs to move.
+
+                        string msg = string.Empty;
+
+                        while (elevator.CurrentTravelFloor != destinationFloor)
+                        {
+                            msg = string.Format("{0} - {1}", DateTime.Now, $"Elevator {elevator.ElevatorID} moving from floor {elevator.CurrentTravelFloor} to floor {elevator.CurrentTravelFloor + (elevator.Movement == Model.Direction.Up ? 1 : -1)} ({elevator.Movement}), the speed of this is: {elevator.Speed}");
+                            _logger.LogInformation(msg);
+                            Console.WriteLine(msg);
+                            // Prompt user to enter how many passengers to offload on each floor movement
+
+                            Console.Write($"Enter the number of passengers to offload at floor {elevator.CurrentTravelFloor}: ");
+                            int offloadCount;
+                            while (!int.TryParse(Console.ReadLine(), out offloadCount) || offloadCount < 0 || offloadCount > elevator.PassengerCount)
+                            {
+                                Console.Write($"Invalid input. Please enter a valid number (between 0 and {elevator.PassengerCount}): ");
+                            }
+
+                            elevator.PassengerCount -= offloadCount;
+                            Console.WriteLine($"{offloadCount} passengers offloaded. {elevator.PassengerCount} passengers remaining.");
+
+                            await Task.Delay(1000 / (int)elevator.Speed); // Simulate delay for real-time movement
+                            elevator.CurrentTravelFloor += elevator.Movement == Model.Direction.Up ? 1 : -1;
+                        }
+
+                        elevator.CurrentFloor = destinationFloor;
+                        elevator.CurrentTravelFloor = destinationFloor;
+                        elevator.Movement = Model.Direction.Idle;
+                    }
+
+                }
+
+                return building ?? new Building(1, 1, 1);
             }
             catch (Exception ex)
             {
