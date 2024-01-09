@@ -26,19 +26,15 @@ namespace Elevator_Simulator.Building.Features.BuildingManager.CaptureUserReques
                 //Capture current floor
                 int currentFloor = GetInput("Current floor: ");
                 requestElevator.CurrentFloor = currentFloor;
-                _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"You are currently requesting an elevator on floor {currentFloor}."));
 
                 //Capture number of passenger
                 int passengerCount = GetInput("Number of passengers: ", maximumPassengers); 
                 requestElevator.PassengerCount = passengerCount;
-                _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"The number of passengers are {passengerCount}."));
 
                 //Capture destination floor
                 int destinationFloor = GetInput("Destination floor: ", totalFloors, currentFloor);                
                 requestElevator.DestinationFloor = destinationFloor;
 
-
-                _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"The last passenger(s) are destined  for floor {destinationFloor}."));
                 await Task.Delay(1);
                 return requestElevator;
             }

@@ -48,8 +48,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
 
                 if (closestElevator.Movement == Model.Direction.Idle)
                 {
-                    _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(AssignRequestAsync)} - ElevatorID : {closestElevator.ElevatorID} is on idle."));
-                    closestElevator.CurrentFloor = currentFloor;
+                    _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(AssignRequestAsync)} - ElevatorID : {closestElevator.ElevatorID} has reached floor {currentFloor} and passengers are now boarding."));
                     closestElevator.PassengerCount = passengerCount;
                     closestElevator.DestinationFloor = destinationFloor;
                     closestElevator.CurrentTravelFloor = currentFloor;
@@ -58,7 +57,6 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
                     {
                         foreach (var itm in building.Elevators.Where(a => a.ElevatorID == closestElevator.ElevatorID))
                         {
-                            itm.CurrentFloor = closestElevator.CurrentFloor;
                             itm.PassengerCount = closestElevator.PassengerCount;
                             itm.DestinationFloor = closestElevator.DestinationFloor;
                             itm.CurrentTravelFloor = closestElevator.CurrentTravelFloor;
