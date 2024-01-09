@@ -9,6 +9,6 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
 {
     public interface IAssignElevatorRequest
     {
-        Task <bool> AssignRequestAsync(List<Model.Elevator> elevators, Model.Elevator elevator, int currentFloor, int passengerCount, int destinationFloor);
+        Task <Model.Building> AssignRequestAsync(Model.Elevator closestElevator, int currentFloor, int passengerCount, int destinationFloor, Model.Building building);
     }
 }

@@ -25,16 +25,16 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorStatus.Implementation
                 {
                     string msg = string.Empty;
                     Console.WriteLine("\nElevator Status:");
-
+                    Console.WriteLine("----------------------------------------------");
                     foreach (var elevator in elevators)
                     {
                         msg = string.Format("{0} - {1}", DateTime.Now, $"Elevator {elevator.ElevatorID} which has speed {elevator.Speed} at floor {elevator.CurrentFloor}, " +
                                           $"Passenger count: {elevator.PassengerCount}, " +
                                           $"Destination floor: {elevator.DestinationFloor}, " +
                                           $"Direction: {elevator.Movement}");
-                        _logger.LogInformation(msg);    
                         Console.WriteLine(msg);
                     }
+                    Console.WriteLine("----------------------------------------------\n");
                     await Task.Delay(1);
                     return true;
                 }

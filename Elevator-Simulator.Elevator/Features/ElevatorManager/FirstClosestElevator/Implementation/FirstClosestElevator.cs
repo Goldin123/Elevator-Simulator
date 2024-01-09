@@ -13,7 +13,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.FirstClosestEleva
     {
         private readonly ILogger<FirstClosestElevator> _logger;
 
-        public FirstClosestElevator(ILogger<FirstClosestElevator> logger, List<Model.Elevator> elevators)
+        public FirstClosestElevator(ILogger<FirstClosestElevator> logger)
         {
             _logger = logger;
         }
@@ -41,7 +41,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.FirstClosestEleva
                                 closestElevator = elevator ?? new Model.Elevator(1, 1, 1, 1);
                             }
                         }
-                        _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - ElevatorID : {closestElevator?.ElevatorID} is the closet available elevator."));
+                        _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - ElevatorID : {closestElevator?.ElevatorID} is the closet available elevator. Please note the speed of this elevator is {closestElevator?.Speed}"));
                         return closestElevator ?? new Model.Elevator(1, 1, 1, 1);
                     }
                     else

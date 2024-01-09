@@ -12,22 +12,22 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
     {
         private readonly ILogger<AssignElevatorRequest> _logger;
 
-        public AssignElevatorRequest(ILogger<AssignElevatorRequest> logger) 
+        public AssignElevatorRequest(ILogger<AssignElevatorRequest> logger)
         {
             _logger = logger;
         }
 
-        public async Task<bool> AssignRequestAsync(List<Model.Elevator> elevators,Model.Elevator elevator, int currentFloor, int passengerCount, int destinationFloor)
+        public async Task<Model.Building> AssignRequestAsync(Model.Elevator closestElevator, int currentFloor, int passengerCount, int destinationFloor, Model.Building building)
         {
-            try 
+            try
             {
-                if(elevator == null) 
+                if (closestElevator == null)
                 {
                     _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(AssignRequestAsync)} - Elevator is null."));
-                    throw new ArgumentNullException(nameof(elevator));
+                    throw new ArgumentNullException(nameof(closestElevator));
                 }
 
-                if(currentFloor <= 0)
+                if (currentFloor <= 0)
                 {
                     _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(currentFloor)} - is out of range."));
                     throw new IndexOutOfRangeException(nameof(currentFloor));
@@ -46,33 +46,36 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
                 }
 
 
-                if (elevator.Movement == Model.Direction.Idle)
+                if (closestElevator.Movement == Model.Direction.Idle)
                 {
-                    _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(AssignRequestAsync)} - ElevatorID : {elevator.ElevatorID} is on idle."));
-                    elevator.CurrentFloor = currentFloor;
-                    elevator.PassengerCount = passengerCount;
-                    elevator.DestinationFloor = destinationFloor;
-                    elevator.CurrentTravelFloor = currentFloor;
+                    _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(AssignRequestAsync)} - ElevatorID : {closestElevator.ElevatorID} is on idle."));
+                    closestElevator.CurrentFloor = currentFloor;
+                    closestElevator.PassengerCount = passengerCount;
+                    closestElevator.DestinationFloor = destinationFloor;
+                    closestElevator.CurrentTravelFloor = currentFloor;
 
-                    foreach(var itm in elevators.Where(a=>a.ElevatorID == elevator.ElevatorID)) 
+                    if (building.Elevators?.Count > 0)
                     {
-                        itm.CurrentFloor = elevator.CurrentFloor;
-                        itm.PassengerCount = elevator.PassengerCount;
-                        itm.DestinationFloor = elevator.DestinationFloor;
-                        itm.CurrentTravelFloor = elevator.CurrentTravelFloor;
+                        foreach (var itm in building.Elevators.Where(a => a.ElevatorID == closestElevator.ElevatorID))
+                        {
+                            itm.CurrentFloor = closestElevator.CurrentFloor;
+                            itm.PassengerCount = closestElevator.PassengerCount;
+                            itm.DestinationFloor = closestElevator.DestinationFloor;
+                            itm.CurrentTravelFloor = closestElevator.CurrentTravelFloor;
+                        }
                     }
 
-                    await Task.Delay(1);            
-                    return true;
+                    await Task.Delay(1);
+                    return building;
                 }
                 else
                 {
-                    _logger.LogWarning(string.Format("{0} - {1}", DateTime.Now, string.Format(Model.Notifications.ElevatorInMotion ?? "", elevator.ElevatorID)));
-                    Console.WriteLine(string.Format("{0} - {1}", DateTime.Now, string.Format(Model.Notifications.ElevatorInMotion ?? "", elevator.ElevatorID)));
-                    return false;
+                    _logger.LogWarning(string.Format("{0} - {1}", DateTime.Now, string.Format(Model.Notifications.ElevatorInMotion ?? "", closestElevator.ElevatorID)));
+                    Console.WriteLine(string.Format("{0} - {1}", DateTime.Now, string.Format(Model.Notifications.ElevatorInMotion ?? "", closestElevator.ElevatorID)));
+                    return building;
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(AssignRequestAsync)} - {ex.Message}"));
                 throw new Exception(ex.Message);
