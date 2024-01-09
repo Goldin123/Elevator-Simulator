@@ -71,7 +71,7 @@ namespace Elevator_Simulator
                     {
                         //Assign Request to elevator
 
-                        var assignElevator = await _elevatorManagerAssignElevatorRequestService.AssignRequestAsync(building.Elevators ?? _tempElevators,findClosetElevator, elevatorRequest.CurrentFloor??0, elevatorRequest.PassengerCount ?? 0, elevatorRequest.DestinationFloor ?? 0);
+                        var assignElevator = await _elevatorManagerAssignElevatorRequestService.AssignRequestAsync(building.Elevators ?? _tempElevators, findClosetElevator, elevatorRequest.CurrentFloor ?? 0, elevatorRequest.PassengerCount ?? 0, elevatorRequest.DestinationFloor ?? 0);
 
                         if (assignElevator)
                         {
@@ -96,13 +96,13 @@ namespace Elevator_Simulator
                 Console.WriteLine(string.Format("{0} - {1}", DateTime.Now, $"{nameof(Main)} - {ex.Message}"));
             }
         }
-        private static void SetupServices(out ServiceProvider _services, out IRequestTheElevator _buildingManagerCaptureUserRequestService, out IConfigureBuilding _buildingManagerConfigureBuildingService, out IFirstClosestElevator _elevatorManagerFirstClosestElevatorService, out IAssignElevatorRequest _elevatorManagerAssignElevatorRequestService,out IMoveToDestination _elevatorMovementToDestinationService,out IElevatorStatus _elevatorStatusService)
+        private static void SetupServices(out ServiceProvider _services, out IRequestTheElevator _buildingManagerCaptureUserRequestService, out IConfigureBuilding _buildingManagerConfigureBuildingService, out IFirstClosestElevator _elevatorManagerFirstClosestElevatorService, out IAssignElevatorRequest _elevatorManagerAssignElevatorRequestService, out IMoveToDestination _elevatorMovementToDestinationService, out IElevatorStatus _elevatorStatusService)
         {
             _services = CreateServices();
             _elevatorManagerAssignElevatorRequestService = _services.GetRequiredService<IAssignElevatorRequest>();
             _elevatorManagerFirstClosestElevatorService = _services.GetRequiredService<IFirstClosestElevator>();
-             _elevatorMovementToDestinationService = _services.GetRequiredService<IMoveToDestination>();
-             _elevatorStatusService = _services.GetRequiredService<IElevatorStatus>();
+            _elevatorMovementToDestinationService = _services.GetRequiredService<IMoveToDestination>();
+            _elevatorStatusService = _services.GetRequiredService<IElevatorStatus>();
             _buildingManagerCaptureUserRequestService = _services.GetRequiredService<IRequestTheElevator>();
             _buildingManagerConfigureBuildingService = _services.GetRequiredService<IConfigureBuilding>();
         }
