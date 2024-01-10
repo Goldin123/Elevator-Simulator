@@ -48,8 +48,8 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorReq
 
                 if (closestElevator.Movement == Model.Direction.Idle)
                 {
-                    _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(AssignRequestAsync)} - ElevatorID : {closestElevator.ElevatorID} has reached floor {currentFloor} and passengers are now boarding."));
-                    closestElevator.PassengerCount = passengerCount;
+                    _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(AssignRequestAsync)} - ElevatorID : {closestElevator.ElevatorID} has been assigned to load {passengerCount} passenger(s) and going to floor {currentFloor}. \nNote that the speed of this elevator is {closestElevator.Speed}"));
+                    closestElevator.PassengerCount += passengerCount;
                     closestElevator.DestinationFloor = destinationFloor;
                     closestElevator.CurrentTravelFloor = currentFloor;
 

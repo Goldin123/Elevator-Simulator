@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestination.Implementation
 {
-    public class MoveToDestination: IMoveToDestination
+    public class MoveToDestination : IMoveToDestination
     {
         private readonly ILogger<MoveToDestination> _logger;
+        const string _twirl = "-\\|/";
 
-        public MoveToDestination(ILogger<MoveToDestination> logger) 
+        public MoveToDestination(ILogger<MoveToDestination> logger)
         {
             _logger = logger;
         }
@@ -35,7 +36,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                     throw new IndexOutOfRangeException(string.Format("{0} - {1}", DateTime.Now, nameof(destinationFloor)));
                 }
 
-                if (building == null) 
+                if (building == null)
                 {
                     _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(MoveToDestinationAsync)} - building is null."));
                     throw new IndexOutOfRangeException(string.Format("{0} - {1}", DateTime.Now, nameof(building)));
@@ -54,8 +55,9 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
 
                         while (elevator.CurrentTravelFloor != destinationFloor && elevator.PassengerCount > 0)
                         {
+                            await Move(elevator);
+
                             msg = string.Format("{0} - {1}", DateTime.Now, $"Elevator {elevator.ElevatorID} moving from floor {elevator.CurrentTravelFloor} to floor {elevator.DestinationFloor} and it is going ({elevator.Movement}), the speed of the current elevator is: {elevator.Speed}");
-                            _logger.LogInformation(msg);
                             Console.WriteLine(msg);
                             // Prompt user to enter how many passengers to offload on each floor movement
                             if (elevator.Movement == Direction.Down)
@@ -63,7 +65,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                             else
                                 elevator.CurrentTravelFloor++;
 
-                            Console.Write($"Enter the number of passengers to offload at floor {elevator.CurrentTravelFloor}: ");
+                            Console.Write($"There's a total of {elevator.PassengerCount} passenger(s).\n Please enter how passenger(s) to get off at floor {elevator.CurrentTravelFloor}: ");
                             elevator.CurrentFloor = elevator.CurrentTravelFloor;
                             int offloadCount;
                             while (!int.TryParse(Console.ReadLine(), out offloadCount) || offloadCount < 0 || offloadCount > elevator.PassengerCount)
@@ -72,11 +74,10 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                             }
 
                             elevator.PassengerCount -= offloadCount;
-                            Console.WriteLine($"{offloadCount} passengers offloaded at floor {elevator.CurrentFloor}. {elevator.PassengerCount} passengers remaining.");
 
-                            await Task.Delay(1000 / (int)elevator.Speed); // Simulate delay for real-time movement
+                            Console.WriteLine($"{offloadCount} passenger(s) offloaded at floor {elevator.CurrentFloor}. {elevator.PassengerCount} passenger(s) remaining.");
                             elevator.CurrentTravelFloor = elevator.CurrentTravelFloor;
-                            elevator.CurrentFloor = elevator.CurrentTravelFloor;
+                            elevator.CurrentFloor = elevator.CurrentTravelFloor;                           
                         }
 
                         elevator.CurrentFloor = destinationFloor;
@@ -93,6 +94,35 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                 _logger.LogCritical(string.Format("{0} - {1}", DateTime.Now, $"{nameof(MoveToDestinationAsync)} - {ex.Message}"));
                 throw new Exception(ex.Message);
             }
+        }
+
+        private static async Task Move(Model.Elevator? elevator)
+        {
+            try
+            {
+                if (elevator != null)
+                {
+                    Console.WriteLine($"Elevator {elevator.ElevatorID} is moving {elevator.Movement}.");
+
+                    WriteProgress(0);
+                    for (var i = 0; i <= 100; ++i)
+                    {
+                        WriteProgress(i, true);
+                        await Task.Delay(50 / (int)elevator.Speed);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        static void WriteProgress(int progress, bool update = false)
+        {
+            if (update)
+                Console.Write("\b");
+            Console.Write(_twirl[progress % _twirl.Length]);
         }
     }
 }

@@ -48,6 +48,11 @@ namespace Elevator_Simulator.Model
         /// The velocity of the speed which is randomly assigned when the elevator is created. 
         /// </summary>
         public ElevatorType Speed { get; set; }
+
+        /// <summary>
+        /// This will control the accessibility of the elevator depending if we need to do physical maintenance, this can be switched on/off
+        /// </summary>
+        public bool? IsUnderMaintenance { get; set; }
         /// <summary>
         /// Basically for an elevator to function, the following parameters needs to be passed through.
         /// </summary>
@@ -67,6 +72,7 @@ namespace Elevator_Simulator.Model
             MaxCapacity = maxCapacity;
             TopFloor = topFloor;
             Speed = (ElevatorType)elevatorType;
+            IsUnderMaintenance = false;
         }
 
 

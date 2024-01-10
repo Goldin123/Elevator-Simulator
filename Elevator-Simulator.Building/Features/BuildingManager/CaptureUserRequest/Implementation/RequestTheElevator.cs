@@ -1,4 +1,5 @@
 ﻿using Elevator_Simulator.Building.Features.BuildingManager.CaptureUserRequest.Interface;
+using Elevator_Simulator.Building.Helpers;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -24,15 +25,15 @@ namespace Elevator_Simulator.Building.Features.BuildingManager.CaptureUserReques
             try
             {
                 //Capture current floor
-                int currentFloor = GetInput("Current floor: ");
+                int currentFloor = Helper.GetIntInput(_logger,"Which Floor Are You Currently On? ");
                 requestElevator.CurrentFloor = currentFloor;
 
                 //Capture number of passenger
-                int passengerCount = GetInput("Number of passengers: ", maximumPassengers); 
+                int passengerCount = Helper.GetIntInput(_logger,"How Many Passengers Are There Waiting? ", maximumPassengers); 
                 requestElevator.PassengerCount = passengerCount;
 
                 //Capture destination floor
-                int destinationFloor = GetInput("Destination floor: ", totalFloors, currentFloor);                
+                int destinationFloor = Helper.GetIntInput(_logger, "What Is The Furthest Floor To Be Travelled? ", totalFloors, currentFloor);                
                 requestElevator.DestinationFloor = destinationFloor;
 
                 await Task.Delay(1);
@@ -45,36 +46,5 @@ namespace Elevator_Simulator.Building.Features.BuildingManager.CaptureUserReques
             }
         }
 
-
-        int GetInput(string prompt)
-        {
-            Console.WriteLine(prompt);
-            int userInput;
-            while (!(int.TryParse(Console.ReadLine(), out userInput) && userInput > 0))
-            {
-                Console.WriteLine("Please enter a positive number.");
-            }
-            return userInput;
-        }
-        int GetInput(string prompt,int maximum)
-        {
-            Console.WriteLine(prompt);
-            int userInput;
-            while (!(int.TryParse(Console.ReadLine(), out userInput) && userInput > 0 && userInput <= maximum))
-            {
-                Console.WriteLine($"Please enter a positive number which is between 1 and {maximum}.");
-            }
-            return userInput;
-        }
-        int GetInput(string prompt, int maximum,int current)
-        {
-            Console.WriteLine(prompt);
-            int userInput;
-            while (!(int.TryParse(Console.ReadLine(), out userInput) && userInput > 0 && userInput <= maximum && userInput != current ))
-            {
-                Console.WriteLine($"Please enter a positive number which is between 1 and {maximum} and should not be {current}.");
-            }
-            return userInput;
-        }
     }
 }
