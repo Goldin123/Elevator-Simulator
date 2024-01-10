@@ -5,6 +5,8 @@ using Elevator_Simulator.Building.Features.BuildingManager.ConfigureBuilding.Imp
 using Elevator_Simulator.Building.Features.BuildingManager.ConfigureBuilding.Interface;
 using Elevator_Simulator.Building.Features.BuildingStatus.Implementation;
 using Elevator_Simulator.Building.Features.BuildingStatus.Interface;
+using Elevator_Simulator.Elevator.Features.ElevatorClear.Implementation;
+using Elevator_Simulator.Elevator.Features.ElevatorClear.Interface;
 using Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorRequest.Implementation;
 using Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorRequest.Interface;
 using Elevator_Simulator.Elevator.Features.ElevatorManager.FirstClosestElevator.Implementation;
@@ -19,7 +21,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 await DoWorkAsync();
-void SetupServices(out ServiceProvider _services, out IRequestTheElevator _buildingManagerCaptureUserRequestService, out IConfigureBuilding _buildingManagerConfigureBuildingService, out IFirstClosestElevator _elevatorManagerFirstClosestElevatorService, out IAssignElevatorRequest _elevatorManagerAssignElevatorRequestService, out IMoveToDestination _elevatorMovementToDestinationService, out IElevatorStatus _elevatorStatusService, out IBuildingStatus _buildingBuildingStatusService)
+void SetupServices(out ServiceProvider _services, out IRequestTheElevator _buildingManagerCaptureUserRequestService, 
+                   out IConfigureBuilding _buildingManagerConfigureBuildingService, out IFirstClosestElevator _elevatorManagerFirstClosestElevatorService, 
+                   out IAssignElevatorRequest _elevatorManagerAssignElevatorRequestService, out IMoveToDestination _elevatorMovementToDestinationService, 
+                   out IElevatorStatus _elevatorStatusService, out IBuildingStatus _buildingBuildingStatusService, out IClearElevator _elevatorEvacuatePassengersService)
 {
     _services = CreateServices();
     _elevatorManagerAssignElevatorRequestService = _services.GetRequiredService<IAssignElevatorRequest>();
@@ -29,6 +34,7 @@ void SetupServices(out ServiceProvider _services, out IRequestTheElevator _build
     _buildingManagerCaptureUserRequestService = _services.GetRequiredService<IRequestTheElevator>();
     _buildingManagerConfigureBuildingService = _services.GetRequiredService<IConfigureBuilding>();
     _buildingBuildingStatusService = _services.GetRequiredService<IBuildingStatus>();
+    _elevatorEvacuatePassengersService = _services.GetRequiredService<IClearElevator>();
 }
 
 ServiceProvider CreateServices()
@@ -47,6 +53,7 @@ ServiceProvider CreateServices()
         .AddSingleton<IRequestTheElevator, RequestTheElevator>()
         .AddSingleton<IConfigureBuilding, ConfigureBuilding>()
         .AddSingleton<IBuildingStatus, BuildingStatus>()
+        .AddSingleton<IClearElevator, ClearElevator>()
         .BuildServiceProvider();
 
     return serviceProvider;
@@ -64,11 +71,13 @@ async Task DoWorkAsync()
         IMoveToDestination _elevatorMovementToDestinationService;
         IElevatorStatus _elevatorStatusService;
         IBuildingStatus _buildingBuildingStatusService;
-
+        IClearElevator _elevatorEvacuatePassengersService;
         List<Elevator> _tempElevators = new List<Elevator>();
 
         //Setup the application dependencies
-        SetupServices(out _services, out _buildingManagerCaptureUserRequestService, out _buildingManagerConfigureBuildingService, out _elevatorManagerFirstClosestElevatorService, out _elevatorManagerAssignElevatorRequestService, out _elevatorMovementToDestinationService, out _elevatorStatusService, out _buildingBuildingStatusService);
+        SetupServices(out _services, out _buildingManagerCaptureUserRequestService, out _buildingManagerConfigureBuildingService, 
+        out _elevatorManagerFirstClosestElevatorService, out _elevatorManagerAssignElevatorRequestService, out _elevatorMovementToDestinationService, 
+        out _elevatorStatusService, out _buildingBuildingStatusService, out _elevatorEvacuatePassengersService);
 
         var _logger = _services.GetRequiredService<ILogger<Program>>();
 
@@ -136,8 +145,7 @@ async Task DoWorkAsync()
 
             if (userInput.Equals("clear"))
             {
-                //clear people
-                var i = true;
+                building = await _elevatorEvacuatePassengersService.ClearAllPassengersAsync(building);
             }
 
         } while (userInput != "exit");

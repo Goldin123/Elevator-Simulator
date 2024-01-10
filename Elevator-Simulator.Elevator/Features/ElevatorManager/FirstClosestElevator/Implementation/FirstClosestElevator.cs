@@ -30,7 +30,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.FirstClosestEleva
                     if (currentFloor > 0)
                     {
 
-                        foreach (var elevator in elevators.Where(a => (a.PassengerCount + capacity) <= a.MaxCapacity))
+                        foreach (var elevator in elevators.Where(a => (a.PassengerCount + capacity) <= a.MaxCapacity && a.IsUnderMaintenance == false))
                         {
                             int.TryParse(elevator?.CurrentFloor.ToString(), out int tempCurrentFloor);
                             int distance = Math.Abs(tempCurrentFloor - currentFloor);
@@ -38,7 +38,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.FirstClosestEleva
                             {
                                 _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, $"{nameof(FindClosestElevatorAvailableAsync)} - ElevatorID : {elevator?.ElevatorID} has a minimum distance {distance} floor(s)."));
                                 minDistance = distance;
-                            
+
                                 closestElevator = elevator;
                             }
                         }
