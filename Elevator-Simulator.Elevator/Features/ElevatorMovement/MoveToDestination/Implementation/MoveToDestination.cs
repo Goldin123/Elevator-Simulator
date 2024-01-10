@@ -65,7 +65,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                             else
                                 elevator.CurrentTravelFloor++;
 
-                            Console.Write($"There's a total of {elevator.PassengerCount} passenger(s), enter how passenger(s) to get off at floor {elevator.CurrentTravelFloor}: ");
+                            Console.Write($"There's a total of {elevator.PassengerCount} passenger(s).\n Please enter how passenger(s) to get off at floor {elevator.CurrentTravelFloor}: ");
                             elevator.CurrentFloor = elevator.CurrentTravelFloor;
                             int offloadCount;
                             while (!int.TryParse(Console.ReadLine(), out offloadCount) || offloadCount < 0 || offloadCount > elevator.PassengerCount)
