@@ -7,19 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Elevator_Simulator.Elevator.Features.ElevatorManager.AssignElevatorRequest.Implementation;
 
-namespace Elevator_Simulator.UnitTests.Features.ElevatorManager.AssignElevatorRequest
+namespace Elevator_Simulator.UnitTests.Features.ElevatorManager.AssignElevatorRequestTest
 {
     public class AssignElevatorRequestTest
     {
+
         [Fact]
-        public async void TestAssignElevator()
+        public async void TestAssignElevatorAsync()
         {
             try
             {
-                var mock = new Mock<ILogger<Elevator.Features.ElevatorManager.AssignElevatorRequest.Implementation.AssignElevatorRequest>>();
-                ILogger<Elevator.Features.ElevatorManager.AssignElevatorRequest.Implementation.AssignElevatorRequest> logger = mock.Object;
+                var mock = new Mock<ILogger<AssignElevatorRequest>>();
+                ILogger<AssignElevatorRequest> logger = mock.Object;
 
-                var _assignElevatorRequest = new Elevator.Features.ElevatorManager.AssignElevatorRequest.Implementation.AssignElevatorRequest(logger);
+                var _assignElevatorRequest = new AssignElevatorRequest(logger);
 
                 int currentFloor = 1;
                 int passengerCount = 10;
@@ -37,7 +38,7 @@ namespace Elevator_Simulator.UnitTests.Features.ElevatorManager.AssignElevatorRe
             }
             catch (Exception ex)
             {
-                Assert.Fail(ex.Message);
+                Assert.Fail(ex.Message);    
             }
 
         }

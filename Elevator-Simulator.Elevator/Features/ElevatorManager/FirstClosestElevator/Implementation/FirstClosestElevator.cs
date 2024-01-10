@@ -21,7 +21,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorManager.FirstClosestEleva
         public async Task<Model.Elevator>? FindClosestElevatorAvailableAsync(List<Model.Elevator> elevators, int currentFloor, int capacity)
         {
             int minDistance = int.MaxValue;
-            Model.Elevator closestElevator = null;
+            Model.Elevator? closestElevator = null;
             try
             {
                 if (elevators.Count > 0)
