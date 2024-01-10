@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elevator", "Elevator", "{7A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator-Simulator.Elevator", "Elevator-Simulator.Elevator\Elevator-Simulator.Elevator.csproj", "{C56D32D4-A40A-4680-A1E3-1D30CD9135B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator-Simulator.Tests", "Elevator-Simulator.Tests\Elevator-Simulator.Tests.csproj", "{15DEBEBB-737E-4CA2-8195-72A9CF748A60}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Building", "Building", "{5374A2DC-2F9E-4D9F-834B-0FC9E0995AFE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator-Simulator.Building", "Elevator-Simulator.Building\Elevator-Simulator.Building.csproj", "{3918F390-327A-4176-8D93-249401208DBF}"
@@ -27,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator-Simulator.UnitTests", "Elevator-Simulator.UnitTests\Elevator-Simulator.UnitTests.csproj", "{6510422E-D590-498C-9327-8A99025D5C02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,14 +46,14 @@ Global
 		{C56D32D4-A40A-4680-A1E3-1D30CD9135B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C56D32D4-A40A-4680-A1E3-1D30CD9135B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C56D32D4-A40A-4680-A1E3-1D30CD9135B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15DEBEBB-737E-4CA2-8195-72A9CF748A60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15DEBEBB-737E-4CA2-8195-72A9CF748A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15DEBEBB-737E-4CA2-8195-72A9CF748A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15DEBEBB-737E-4CA2-8195-72A9CF748A60}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3918F390-327A-4176-8D93-249401208DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3918F390-327A-4176-8D93-249401208DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3918F390-327A-4176-8D93-249401208DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3918F390-327A-4176-8D93-249401208DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6510422E-D590-498C-9327-8A99025D5C02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6510422E-D590-498C-9327-8A99025D5C02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6510422E-D590-498C-9327-8A99025D5C02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6510422E-D590-498C-9327-8A99025D5C02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,8 +62,8 @@ Global
 		{3EBC8FD2-3C2B-40C8-AEAC-8B85D7125413} = {697D09D1-A34D-4466-ABAB-C62B73B21941}
 		{83FE2820-EAA9-4FAA-B29B-282AC77E25D7} = {74D898CE-847F-4656-85C7-1D89EE1483E8}
 		{C56D32D4-A40A-4680-A1E3-1D30CD9135B8} = {7A832F4A-1AAF-4A3E-9E7E-050BD2B54AF4}
-		{15DEBEBB-737E-4CA2-8195-72A9CF748A60} = {B25AC8D9-5B54-489B-9E31-90566BEB7A46}
 		{3918F390-327A-4176-8D93-249401208DBF} = {5374A2DC-2F9E-4D9F-834B-0FC9E0995AFE}
+		{6510422E-D590-498C-9327-8A99025D5C02} = {B25AC8D9-5B54-489B-9E31-90566BEB7A46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0FACBB5-3329-4D6D-ADE0-B7681CC223B9}
