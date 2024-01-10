@@ -11,8 +11,9 @@ namespace Elevator_Simulator.UnitTests.Features.ElevatorManager.AssignElevatorRe
 {
     public class AssignElevatorRequestTest
     {
+
         [Fact]
-        public async void TestAssignElevator()
+        public async void TestAssignElevatorAsync()
         {
             try
             {
@@ -37,7 +38,7 @@ namespace Elevator_Simulator.UnitTests.Features.ElevatorManager.AssignElevatorRe
             }
             catch (Exception ex)
             {
-                Assert.Fail(ex.Message);
+                Assert.Fail(ex.Message);    
             }
 
         }

@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="Features\BuildingManager\CaptureUserRequest\" />
+    <Folder Include="Application\" />
   </ItemGroup>
 
 </Project>
