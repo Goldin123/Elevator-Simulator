@@ -18,6 +18,29 @@ Once the application is running, the user will first be prompted to enter the nu
 * Plase first build the solution and make sure all project dependencies are installed.
 * Once build is successful, simply run the project. Make sure 'Elevator-Simulator' in the Application folder is set as a start up project.
 
+## How the program works
+
+Once the application builds successfully, there are a couple of steps needed first before the simulation starts.
+
+### Step 1: Configure the Building
+
+![Configure Building Process](https://github.com/Goldin123/Elevator-Simulator/assets/17449653/fbd6e95d-7161-4a6c-8320-8003fea96b5d)
+
+
+To achieve this, the application will prompt a user to enter the following, the total number of floors available, the total number of elevators available, and the maximum capacity each elevator can carry. All the inputs are validated to make sure that the information supplied is in the correct form, i.e., No negative, Only numbers, etc.
+
+### Step 2: Manage Elevators
+
+Once the building is configured, the application will always need the following inputs to perform a simulation, the current floor, the number of passengers, and the furthest desired destination floor to travel. Like the building setup, these inputs are also validated. Note if at any instance that the elevators are all full, the user will be notified. To offload all passengers in all the elevators, a special command called 'clear' can be used to offload all the passengers in all the elevators.
+
+## Technology Stack
+
+| Technology | Version |
+| --- | --- |
+| .net 8 | verion 8.0.100 |
+| Visual Studio | version 17.8.3 |
+| XUnit | vaersion 2.6.5 |
+
 ## Authors
 
 Contributors names and contact info
