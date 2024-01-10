@@ -26,13 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Elevator-Simulator.Building\Elevator-Simulator.Building.csproj" />
     <ProjectReference Include="..\Elevator-Simulator.Elevator\Elevator-Simulator.Elevator.csproj" />
     <ProjectReference Include="..\Model\Elevator-Simulator.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\BuildingManager\CaptureUserRequest\" />
-    <Folder Include="Application\" />
   </ItemGroup>
 
 </Project>

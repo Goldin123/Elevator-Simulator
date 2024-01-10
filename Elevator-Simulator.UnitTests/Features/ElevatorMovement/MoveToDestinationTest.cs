@@ -22,18 +22,18 @@ namespace Elevator_Simulator.UnitTests.Features.ElevatorMovement
                 var _moveToDestination = new MoveToDestination(logger);
 
                 var closetElevator = new Model.Elevator(2, 5, 10, 9);
-
+                int destinationFloor = 8;
                 var elevators = new List<Model.Elevator>
                 {
                     new Model.Elevator(1,2,10,9),
                     new Model.Elevator(2,5,10,9),
                     new Model.Elevator(3,6,10,9),
                 };
-                int destinationFloor = 8;
+                
                 var building = new Model.Building(9, 3, 10);
                 building.Elevators = elevators;
 
-                var moveElevator = _moveToDestination.MoveToDestinationAsync(closetElevator,destinationFloor,building);
+                var moveElevator = await _moveToDestination.MoveToDestinationAsync(closetElevator,destinationFloor,building);
 
                 Assert.NotNull(moveElevator);
             }

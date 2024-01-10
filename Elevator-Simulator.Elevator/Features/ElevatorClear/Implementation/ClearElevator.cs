@@ -21,7 +21,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorClear.Implementation
         {
             try 
             {
-                Console.WriteLine(string.Format("{0} - {1}",$"{nameof(ClearAllPassengersAsync)} - attempting to clear all passengers."));
+                Console.WriteLine(string.Format("{0} - {1}", DateTime.Now, $"{nameof(ClearAllPassengersAsync)} - attempting to clear all passengers."));
 
                 foreach(var elevator in building.Elevators) 
                 {
@@ -29,9 +29,9 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorClear.Implementation
                     {
                         Console.WriteLine($"{elevator.PassengerCount} passenger(s) off loaded on floor {elevator.CurrentFloor}. ");
                         elevator.PassengerCount = 0;
-
                     }
                 }
+                await Task.Delay(1);
                 return building;
             }
             catch (Exception ex) 
