@@ -15,13 +15,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator-Simulator.Model", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elevator", "Elevator", "{7A832F4A-1AAF-4A3E-9E7E-050BD2B54AF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator-Simulator.Elevator", "Elevator-Simulator.Elevator\Elevator-Simulator.Elevator.csproj", "{C56D32D4-A40A-4680-A1E3-1D30CD9135B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator-Simulator.Elevator", "Elevator-Simulator.Elevator\Elevator-Simulator.Elevator.csproj", "{C56D32D4-A40A-4680-A1E3-1D30CD9135B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator-Simulator.Tests", "Elevator-Simulator.Tests\Elevator-Simulator.Tests.csproj", "{15DEBEBB-737E-4CA2-8195-72A9CF748A60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator-Simulator.Tests", "Elevator-Simulator.Tests\Elevator-Simulator.Tests.csproj", "{15DEBEBB-737E-4CA2-8195-72A9CF748A60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Building", "Building", "{5374A2DC-2F9E-4D9F-834B-0FC9E0995AFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator-Simulator.Building", "Elevator-Simulator.Building\Elevator-Simulator.Building.csproj", "{3918F390-327A-4176-8D93-249401208DBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator-Simulator.Building", "Elevator-Simulator.Building\Elevator-Simulator.Building.csproj", "{3918F390-327A-4176-8D93-249401208DBF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AE153920-C489-4C49-A172-F3056351645A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -14,6 +14,7 @@ using Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestination.In
 using Elevator_Simulator.Elevator.Features.ElevatorStatus.Implementation;
 using Elevator_Simulator.Elevator.Features.ElevatorStatus.Interface;
 using Elevator_Simulator.Model;
+using Elevator_Simulator.Utility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -63,14 +64,13 @@ async Task DoWorkAsync()
         IMoveToDestination _elevatorMovementToDestinationService;
         IElevatorStatus _elevatorStatusService;
         IBuildingStatus _buildingBuildingStatusService;
+
         List<Elevator> _tempElevators = new List<Elevator>();
 
         //Setup the application dependencies
         SetupServices(out _services, out _buildingManagerCaptureUserRequestService, out _buildingManagerConfigureBuildingService, out _elevatorManagerFirstClosestElevatorService, out _elevatorManagerAssignElevatorRequestService, out _elevatorMovementToDestinationService, out _elevatorStatusService, out _buildingBuildingStatusService);
 
         var _logger = _services.GetRequiredService<ILogger<Program>>();
-
-        _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, "Application starting....."));
 
         //Configure the building
         var building = await _buildingManagerConfigureBuildingService.ConfigureBuildingAsync();
@@ -79,10 +79,19 @@ async Task DoWorkAsync()
         {
             throw new Exception(string.Format("{0} - {1}", DateTime.Now, "Application had problems configuring the building."));
         }
-       
+        _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, "Application starting up....."));
+
+        Helper.WriteProgressBar(0);
+        for (var i = 0; i <= 100; ++i)
+        {
+            Helper.WriteProgressBar(i, true);
+            Thread.Sleep(25);
+        }
+        Console.WriteLine("\n");
 
         _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, "Building is now all setup. Now let's get passengers onto the elevators so they can be safely delivered to their desired destination."));
-        await Task.Delay(1000);
+
+        await Task.Delay(2000);
 
         string? userInput = string.Empty;
         do
@@ -93,8 +102,6 @@ async Task DoWorkAsync()
             await _buildingBuildingStatusService.DisplayBuildingStatusAsync(building);
 
             await _elevatorStatusService.DisplayElevatorStatusAsync(building.Elevators ?? _tempElevators);
-
-            Console.WriteLine("\nPlease follow prompts for a new elevator request (type 'exit' to quit):");
 
             //Request an elevator
 
@@ -127,6 +134,12 @@ async Task DoWorkAsync()
             Console.WriteLine("\nType 'exit' to quit or press Enter to continue.");
             userInput = Console.ReadLine();
 
+            if (userInput.Equals("clear"))
+            {
+                //clear people
+                var i = true;
+            }
+
         } while (userInput != "exit");
 
         Console.ReadLine();
@@ -136,3 +149,5 @@ async Task DoWorkAsync()
         Console.WriteLine(string.Format("{0} - {1}", DateTime.Now, $"{ex.Message}"));
     }
 }
+
+
