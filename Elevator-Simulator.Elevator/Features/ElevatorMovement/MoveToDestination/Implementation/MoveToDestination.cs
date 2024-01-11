@@ -79,9 +79,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
                             elevator.CurrentTravelFloor = elevator.CurrentTravelFloor;
                             elevator.CurrentFloor = elevator.CurrentTravelFloor;                           
                         }
-
-                        elevator.CurrentFloor = destinationFloor;
-                        elevator.CurrentTravelFloor = destinationFloor;
+                                               
                         elevator.Movement = Model.Direction.Idle;
                     }
 
