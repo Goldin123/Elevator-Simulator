@@ -33,6 +33,11 @@ To achieve this, the application will prompt a user to enter the following, the 
 
 Once the building is configured, the application will always need the following inputs to perform a simulation, the current floor, the number of passengers, and the furthest desired destination floor to travel. Like the building setup, these inputs are also validated. Note if at any instance that the elevators are all full, the user will be notified. To offload all passengers in all the elevators, a special command called 'clear' can be used to offload all the passengers in all the elevators.
 
+#### Below is the process to request an elevator:
+
+![Request Elevator Process](https://github.com/Goldin123/Elevator-Simulator/assets/17449653/2b4f15e4-698e-46c3-a1f4-f0b6c511ede8)
+
+
 ## Technology Stack
 
 | Technology | Version |
