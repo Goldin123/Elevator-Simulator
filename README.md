@@ -38,6 +38,12 @@ Once the building is configured, the application will always need the following 
 ![Request Elevator Process](https://github.com/Goldin123/Elevator-Simulator/assets/17449653/2b4f15e4-698e-46c3-a1f4-f0b6c511ede8)
 
 
+#### Below is how the elevator movement is simulated:
+
+![Elevator Movement Process](https://github.com/Goldin123/Elevator-Simulator/assets/17449653/dcd90bda-8bbd-42b6-a52c-703b9fa5c71a)
+
+Elevators can move at speed Normal, Medium or High, these can auto allocated for simulation purposes. 
+
 ## Technology Stack
 
 | Technology | Version |
