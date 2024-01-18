@@ -75,8 +75,8 @@ async Task DoWorkAsync()
         List<Elevator> _tempElevators = new List<Elevator>();
 
         //Setup the application dependencies
-        SetupServices(out _services, out _buildingManagerCaptureUserRequestService, out _buildingManagerConfigureBuildingService, 
-        out _elevatorManagerFirstClosestElevatorService, out _elevatorManagerAssignElevatorRequestService, out _elevatorMovementToDestinationService, 
+        SetupServices(out _services, out _buildingManagerCaptureUserRequestService, out _buildingManagerConfigureBuildingService,
+        out _elevatorManagerFirstClosestElevatorService, out _elevatorManagerAssignElevatorRequestService, out _elevatorMovementToDestinationService,
         out _elevatorStatusService, out _buildingBuildingStatusService, out _elevatorEvacuatePassengersService);
 
         var _logger = _services.GetRequiredService<ILogger<Program>>();
@@ -90,12 +90,8 @@ async Task DoWorkAsync()
         }
         _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, "Application starting up....."));
 
-        Helper.WriteProgressBar(0);
-        for (var i = 0; i <= 100; ++i)
-        {
-            Helper.WriteProgressBar(i, true);
-            Thread.Sleep(25);
-        }
+        loader();
+
         Console.WriteLine("\n");
 
         _logger.LogInformation(string.Format("{0} - {1}", DateTime.Now, "Building is now all setup. Now let's get passengers onto the elevators so they can be safely delivered to their desired destination."));
@@ -124,7 +120,7 @@ async Task DoWorkAsync()
             var closestElevator = await _elevatorManagerFirstClosestElevatorService.FindClosestElevatorAvailableAsync(building.Elevators ?? _tempElevators, elevatorRequest.CurrentFloor ?? 0, elevatorRequest.PassengerCount ?? 0);
 
             if (closestElevator == null)
-                Console.WriteLine(string.Format("{0} - {1}", DateTime.Now, $"No elevators available for floor {elevatorRequest.CurrentFloor}."));
+                Console.WriteLine(string.Format("{0} - {1}", DateTime.Now, $"No elevators available for floor {elevatorRequest.CurrentFloor} to carry {elevatorRequest.PassengerCount ?? 0} passenger(s)."));
             else
             {
                 //Assign Request to elevator
@@ -140,12 +136,13 @@ async Task DoWorkAsync()
 
             await _elevatorStatusService.DisplayElevatorStatusAsync(building.Elevators ?? _tempElevators);
 
-            Console.WriteLine("\nType 'exit' to quit or press Enter to continue.");
+            Console.WriteLine("\nType 'exit' to quit or press Enter to continue.\n\nType 'clear' to auto-offload if maximum elevator capacity is reached.");
             userInput = Console.ReadLine();
 
             if (userInput.Equals("clear"))
             {
                 building = await _elevatorEvacuatePassengersService.ClearAllPassengersAsync(building);
+                loader();
             }
 
         } while (userInput != "exit");
@@ -158,4 +155,12 @@ async Task DoWorkAsync()
     }
 }
 
-
+static void loader()
+{
+    Helper.WriteProgressBar(0);
+    for (var i = 0; i <= 100; ++i)
+    {
+        Helper.WriteProgressBar(i, true);
+        Thread.Sleep(25);
+    }
+}

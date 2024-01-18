@@ -100,7 +100,7 @@ namespace Elevator_Simulator.Elevator.Features.ElevatorMovement.MoveToDestinatio
             {
                 if (elevator != null)
                 {
-                    Console.WriteLine($"Elevator {elevator.ElevatorID} is moving {elevator.Movement}.");
+                    Console.WriteLine($"Elevator {elevator.ElevatorID} moving {elevator.Movement}.");
 
                     WriteProgress(0);
                     for (var i = 0; i <= 100; ++i)
